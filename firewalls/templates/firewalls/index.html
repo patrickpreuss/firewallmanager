@@ -1,0 +1,185 @@
+{% extends "firewalls/base.html" %}
+{% block rule_table %}
+    {% if rule_list %}
+    <table class="table table-hover" data-pagination="true" data-toggle="table"  data-search="true" data-show-export="true" data-show-toggle="true"  data-show-columns="true" data-smart-display="true" data-show-filter="true" data-toolbar="toolbar">
+        <thead>
+        <tr>
+            <th data-field="id" data-sortable="true">Rule ID</th>
+            <th data-sortable="true">Source</th>
+            <th data-sortable="true">Destination</th>
+            <th data-sortable="true">Source IP</th>
+            <th data-sortable="true">Dest. IP</th>
+            <th data-sortable="true">Port #</th>
+            <th data-sortable="true">Conn Type</th>
+            <th data-sortable="true">Approval</th>
+            <th data-sortable="true">Status</th>
+            <th data-sortable="true">Last update</th>
+        </tr>
+        </thead>
+    {% for rule in rule_list %}
+        <tr>
+            <td>{{ rule.id }}</td>
+            <td>{{ rule.source }}</td>
+            <td>{{ rule.destination }}</td>
+            <td>{{ rule.source_ip }}</td>
+            <td>{{ rule.destination_ip }}</td> 
+            <td>{{ rule.port_number }}</td>
+            <td>{{ rule.connection_type }}</td>
+            <td>{{ rule.approved }}</td>
+            
+    {% if rule.status %}
+            <td class="text-center goodrule"><i class="fa fa-check fa-lg"></i></td>
+    {% else %}
+            <td class="text-center badrule"><i class="fa fa-close fa-lg"></i></td>
+    {% endif %}
+            <td>{{ rule.last_updated }}</td>
+        </tr>
+    {% endfor %}
+    {% else %}
+    <p> No polls are available. </p>
+    {% endif %}
+{% endblock %}
+
+{% block chartproto %}
+<div>
+<canvas id="chartproto-area" width="60" height="60"/></canvas>
+
+<script>
+
+var doughnutData = [
+{
+value: {{ tcpcount }},
+color:"#D770AD",
+highlight: "#EC87C0",
+label: "TCP Rules"
+},
+{
+value: {{ udpcount }},
+color: "#967ADC",
+highlight: "#AC92EC",
+label: "UDP Rules"
+},
+{	
+value: {{ icmpcount }},
+color: "#37BC9B",
+highlight: "#48CFAD",
+label: "ICMP Rules"
+},
+
+];
+
+window.onload = function(){
+    var ctxproto = document.getElementById("chartproto-area").getContext("2d");
+    window.myDoughnut = new Chart(ctxproto).Pie(doughnutData, {responsive : true});
+
+    var ctx = document.getElementById("chart-area").getContext("2d");
+    window.myDoughnut = new Chart(ctx).Pie(doughnutProtoData, {responsive : true,});
+}
+
+
+
+</script>
+</div>
+
+<div class="blank">
+    <span class="badge badge-tcp">TCP Rules</span>
+</div>
+<div class="blank">
+    <span class="badge badge-udp">UDP Rules</span>
+</div><div class="blank">
+    <span class="badge badge-icmp">ICMP Rules</span>
+</div>
+        
+
+{% endblock %}
+
+
+
+
+{% block mychart %}
+<div>
+<canvas id="chart-area" width="60" height="60"/></canvas>
+<script>
+
+var doughnutProtoData = [
+{
+value: {{ badcount }},
+color:"#E9573F",
+highlight: "#FC6E51",
+label: "Failed Rules"
+},
+{
+value: {{ goodcount }},
+color: "#8CC152",
+highlight: "#A0D468",
+label: "Succesfull Rules"
+},
+
+];
+
+
+</script>
+
+</div>
+<div class="blank">
+    <span class="badge badge-failed">Failed Rules</span>
+</div>
+<div class="blank">
+    <span class="badge badge-success">Successful Rules</span>
+</div>
+{% endblock %}
+
+{% block panelinfo %}
+
+<div class="panel panel-info">
+ <div class="panel-heading">
+     <h3 class="panel-title">Information Summary</h3>
+</div>
+<div class="panel-body">
+<i class="fa fa-fire fa-lg"></i> <span class="summarylabel">{{ rulecount }} {% if rulecount > 1 %}Rules{% else %}Rule{% endif %}</span><br>
+<i class="fa fa-server fa-lg"></i> <span class="summarylabel">{{ hostcount }} {% if hostcount > 1 %}Hosts{% else %}Host{% endif %} </span><br>
+<i class="fa fa-connectdevelop fa-lg"></i><span class="summarylabel">{{ clustercount }} {% if clustercount > 1 %}Clusters{% else %}Cluster{% endif %}</span><br>
+<i class="fa fa-photo fa-lg"></i><span class="summarylabel">{{ locationcount }} {% if locationcount > 1 %}Locations{% else %}Location{% endif %}</span><br>
+<i class="fa fa-thumbs-down fa-lg"></i><span class="summarylabel">{{ badcount }} {% if badcount > 1 %}Failed Rules{% else %}Failed Rule {% endif %}</span><br>
+<i class="fa fa-thumbs-up fa-lg"></i><span class="summarylabel">{{ goodcount }} {% if goodcount > 1 %}Successful Rules{% else %}Successful Rule {% endif %}</span>
+</div>
+</div>
+
+{% endblock %}
+
+{% block network %}
+<script type="text/javascript">
+    // create an array with nodes
+    var nodes = [
+        {% for node in hosts %}
+        {id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
+        {% endfor %}
+    ];
+
+    // create an array with edges
+    var edges = [
+        {% for rule in rule_list %}
+        {% if rule.status %}
+            {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}', length: 500},
+        {% else %}
+            {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
+        {% endif %}
+        {% endfor %}
+        
+    ];
+    
+    var options = {
+    //width: '400px',
+    height: '500px',        
+    };
+
+    // create a network
+    var container = document.getElementById('visualization');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var network = new vis.Network(container, data, options);
+</script>
+
+{% endblock %}
