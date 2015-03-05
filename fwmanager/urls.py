@@ -19,6 +19,6 @@ urlpatterns = patterns('',
     #url(r'^clusters/', include('clusters.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
-admin.site.site_header = "Firewall Manager"
-admin.site.index_title = "Firewall Manager"
-admin.site.site_title = "Firewall Manager"
+admin.site.site_header = "Firewall Rules Validator"
+admin.site.index_title = "Firewall Rules Validator"
+admin.site.site_title = "Firewall Rules Validator"

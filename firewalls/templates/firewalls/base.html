@@ -3,7 +3,7 @@
 
 <html lang=en>
     <head>
-        <title>Firewall Manager</title>
+        <title>Firewall Rules Validator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8">
 
@@ -53,7 +53,7 @@
         <div class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#"><i class="fa fa-linux fa-lg"></i> Firewall Manager</a>
+                    <a class="navbar-brand" href="#"><i class="fa fa-linux fa-lg"></i> Firewall Rules Validator</a>
                 </div>
                 <div class="navbar-text pull-right">
                   {% if user.is_authenticated %}
@@ -100,29 +100,13 @@
         
       
         
-        <div class="container">
-            <div class="row">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Network Graph</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div id="visualization"></div>
-                            {% block network %}This is the network content.{% endblock %}
-                        </div>
-                    </div>
-                    
-            </div>
-        </div>
+
+{% block network %}This is the network content.{% endblock %}
+                       
    
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    {% block rule_table %}This is the default content.{% endblock %}
-                </div>
-            </div>
-        </div>  
+{% block rule_table %}This is the default content.{% endblock %}
+               
         <!-- /.container -->
 
       
