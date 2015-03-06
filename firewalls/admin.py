@@ -16,10 +16,10 @@ class RuleAdminForm(forms.ModelForm):
           'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
           }
         }
-    
+
 class RuleAdmin(admin.ModelAdmin):
   form = RuleAdminForm
-  exclude = ('source_ip','destination_ip',)
+  exclude = ('source_ip','destination_ip','status')
 
   list_display = ('source','destination','source_ip','destination_ip','port_number', 'connection_type','approved','status','last_updated')
   list_filter = ['status']
