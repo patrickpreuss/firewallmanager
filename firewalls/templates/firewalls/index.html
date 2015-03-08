@@ -167,7 +167,7 @@
           // create an array with nodes
         var nodes = [
 {% for node in hosts %}
-{id: {{node.id}}, label: '{{node.id}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
+{id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
 {% endfor %}
 ];
 
@@ -175,26 +175,31 @@
 var edges = [
 {% for rule in rule_list %}
 {% if rule.status %}
-{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}'},
+{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
 {% else %}
-{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}'},
+{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
 {% endif %}
 {% endfor %}
 
 ];
 
-var options = {
+//var options = {
   //width: '400px',
-height: '500px',        
-};
+//height: '500px',        
+//stabilize: true,
+//hierarchicalLayout: {
+ //  direction: 'UD' 
+//}
+//};
 
+//var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400, centralGravity: 0.65, springLength: 164, springConstant: 0.0227, damping: 0.3}}, smoothCurves: true};
+var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400}}, smoothCurves: false};
 // create a network
 var container = document.getElementById('visualization');
 var data = {
 nodes: nodes,
        edges: edges
 };
-var options = {stabilize:false};
 var network = new vis.Network(container, data, options);
 </script>
  </div>
