@@ -44,15 +44,15 @@ def IndexView(request):
 	context_dict = {}
 
 	context_dict['rule_list'] = Rule.objects.all().order_by('-last_updated')
-	context_dict['badcount'] = len(Rule.objects.filter(status=False))
-	context_dict['goodcount'] = len(Rule.objects.filter(status=True))
-	context_dict['tcpcount'] = len(Rule.objects.filter(connection_type="TCP"))
-	context_dict['udpcount'] = len(Rule.objects.filter(connection_type="UDP"))
-	context_dict['icmpcount'] = len(Rule.objects.filter(connection_type="ICMP"))
-	context_dict['rulecount'] = len(Rule.objects.all())
-	context_dict['clustercount'] = len(Cluster.objects.all())
-	context_dict['locationcount'] = len(Location.objects.all())
-	context_dict['hostcount'] = len(Host.objects.all())
+	context_dict['badcount'] = Rule.objects.filter(status=False).count()
+	context_dict['goodcount'] = Rule.objects.filter(status=True).count()
+	context_dict['tcpcount'] = Rule.objects.filter(connection_type="TCP").count()
+	context_dict['udpcount'] = Rule.objects.filter(connection_type="UDP").count()
+	context_dict['icmpcount'] = Rule.objects.filter(connection_type="ICMP").count()
+	context_dict['rulecount'] = Rule.objects.all().count()
+	context_dict['clustercount'] = Cluster.objects.all().count()
+	context_dict['locationcount'] = Location.objects.all().count()
+	context_dict['hostcount'] = Host.objects.all().count()
 
 	context_dict['hosts'] = Host.objects.all()
 

@@ -25,7 +25,7 @@
           <td>{{ rule.source }}</td>
           <td>{{ rule.destination }}</td>
           <td>{{ rule.source_ip }}</td>
-          <td>{{ rule.destination_ip }}</td> 
+          <td>{{ rule.destination_ip }}</td>
           <td>{{ rule.port_number }}</td>
           <td>{{ rule.connection_type }}</td>
           <td>{{ rule.approved }}</td>
@@ -53,7 +53,7 @@
 
   <script>
 
-    var doughnutData = [
+  var doughnutData = [
     {
       value: {{ tcpcount }},
       color:"#D770AD",
@@ -66,22 +66,22 @@
       highlight: "#AC92EC",
       label: "UDP Rules"
     },
-    {	
+    {
       value: {{ icmpcount }},
       color: "#37BC9B",
       highlight: "#48CFAD",
       label: "ICMP Rules"
     },
 
-    ];
+  ];
 
-    window.onload = function(){
-      var ctxproto = document.getElementById("chartproto-area").getContext("2d");
-      window.myDoughnut = new Chart(ctxproto).Pie(doughnutData, {responsive : true});
+  window.onload = function(){
+    var ctxproto = document.getElementById("chartproto-area").getContext("2d");
+    window.myDoughnut = new Chart(ctxproto).Pie(doughnutData, {responsive : true});
 
-      var ctx = document.getElementById("chart-area").getContext("2d");
-      window.myDoughnut = new Chart(ctx).Pie(doughnutProtoData, {responsive : true,});
-    }
+    var ctx = document.getElementById("chart-area").getContext("2d");
+    window.myDoughnut = new Chart(ctx).Pie(doughnutProtoData, {responsive : true,});
+  }
 
 
 
@@ -93,7 +93,7 @@
 </div>
 <div class="blank">
   <span class="badge badge-udp">UDP Rules</span>
-  </div><div class="blank">
+</div><div class="blank">
   <span class="badge badge-icmp">ICMP Rules</span>
 </div>
 
@@ -108,7 +108,7 @@
   <canvas id="chart-area" width="60" height="60"/></canvas>
   <script>
 
-    var doughnutProtoData = [
+  var doughnutProtoData = [
     {
       value: {{ badcount }},
       color:"#E9573F",
@@ -122,7 +122,7 @@
       label: "Succesfull Rules"
     },
 
-    ];
+  ];
 
 
   </script>
@@ -164,47 +164,47 @@
       <div class="panel-body">
         <div id="visualization"></div>
         <script type="text/javascript">
-          // create an array with nodes
+        // create an array with nodes
         var nodes = [
-{% for node in hosts %}
-{id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
-{% endfor %}
-];
+          {% for node in hosts %}
+          {id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
+          {% endfor %}
+        ];
 
-// create an array with edges
-var edges = [
-{% for rule in rule_list %}
-{% if rule.status %}
-{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
-{% else %}
-{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
-{% endif %}
-{% endfor %}
+        // create an array with edges
+        var edges = [
+          {% for rule in rule_list %}
+          {% if rule.status %}
+          {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
+          {% else %}
+          {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
+          {% endif %}
+          {% endfor %}
 
-];
+        ];
 
-//var options = {
-  //width: '400px',
-//height: '500px',        
-//stabilize: true,
-//hierarchicalLayout: {
- //  direction: 'UD' 
-//}
-//};
+        //var options = {
+        //width: '400px',
+        //height: '500px',
+        //stabilize: true,
+        //hierarchicalLayout: {
+        //  direction: 'UD'
+        //}
+        //};
 
-//var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400, centralGravity: 0.65, springLength: 164, springConstant: 0.0227, damping: 0.3}}, smoothCurves: true};
-var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400}}, smoothCurves: false};
-// create a network
-var container = document.getElementById('visualization');
-var data = {
-nodes: nodes,
-       edges: edges
-};
-var network = new vis.Network(container, data, options);
-</script>
- </div>
-                    </div>
+        //var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400, centralGravity: 0.65, springLength: 164, springConstant: 0.0227, damping: 0.3}}, smoothCurves: true};
+        var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400}}, smoothCurves: false};
+        // create a network
+        var container = document.getElementById('visualization');
+        var data = {
+          nodes: nodes,
+          edges: edges
+        };
+        var network = new vis.Network(container, data, options);
+        </script>
+      </div>
+    </div>
 
-                  </div>
-                </div>
-                {% endblock %}
+  </div>
+</div>
+{% endblock %}
