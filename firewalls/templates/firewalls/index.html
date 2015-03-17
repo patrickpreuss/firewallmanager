@@ -1,5 +1,126 @@
 {% extends "firewalls/base.html" %}
-{% block rule_table %}
+
+
+{% block body %}
+
+<div class="container">
+	<div class="row">
+
+		<!-- Rule Chart Follows Here -->
+		<div class="col-md-2 col-xs-6">
+			<canvas id="chart-area" width="60" height="60"/></canvas>
+			<script>
+
+				var doughnutProtoData = [
+					{
+						value: {{ badcount }},
+						color:"#E9573F",
+						highlight: "#FC6E51",
+						label: "Failed Rules"
+					},
+					{
+						value: {{ goodcount }},
+						color: "#8CC152",
+						highlight: "#A0D468",
+						label: "Succesfull Rules"
+					},
+
+				];
+
+
+			</script>
+			<div class="blank">
+				<span class="badge badge-failed">Failed Rules</span>
+			</div>
+			<div class="blank">
+				<span class="badge badge-success">Successful Rules</span>
+			</div>
+
+		</div>
+
+
+		<!-- Rule Chart Follows Here -->
+
+
+		<!-- Protocol Chart Follows Here -->
+		<div class="col-md-2 col-xs-6 col-xs-offset-1">
+			<canvas id="chartproto-area" width="60" height="60"/></canvas>
+
+			<script>
+
+				var doughnutData = [
+					{
+						value: {{ tcpcount }},
+						color:"#D770AD",
+						highlight: "#EC87C0",
+						label: "TCP Rules"
+					},
+					{
+						value: {{ udpcount }},
+						color: "#967ADC",
+						highlight: "#AC92EC",
+						label: "UDP Rules"
+					},
+					{
+						value: {{ icmpcount }},
+						color: "#37BC9B",
+						highlight: "#48CFAD",
+						label: "ICMP Rules"
+					},
+
+				];
+
+				window.onload = function(){
+					var ctxproto = document.getElementById("chartproto-area").getContext("2d");
+					window.myDoughnut = new Chart(ctxproto).Pie(doughnutData, {responsive : true});
+
+					var ctx = document.getElementById("chart-area").getContext("2d");
+					window.myDoughnut = new Chart(ctx).Pie(doughnutProtoData, {responsive : true,});
+				}
+
+
+
+			</script>
+
+			<div class="blank">
+				<span class="badge badge-tcp">TCP Rules</span>
+			</div>
+			<div class="blank">
+				<span class="badge badge-udp">UDP Rules</span>
+				</div><div class="blank">
+				<span class="badge badge-icmp">ICMP Rules</span>
+			</div>
+		</div>
+
+
+
+
+		<!-- Protocol Chart Ends Here -->
+
+		<!-- Information Summary Starts Here -->
+
+		<div class="col-md-3 col-md-offset-4 col-xs-12">
+			<ul class="list-group">
+				<li class="list-group-item"><span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp; Number of Rules<span class="badge">{{rulecount}}</span></li>
+				<li class="list-group-item"><span class="glyphicon glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp; Number of Hosts<span class="badge">{{hostcount}}</span></li>
+				<li class="list-group-item"><span class="glyphicon glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp; Number of Clusters<span class="badge">{{clustercount}}</span></li>
+				<li class="list-group-item"><span class="glyphicon glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp; Number of Locations<span class="badge">{{locationcount}}</span></li>
+				<li class="list-group-item"><span class="glyphicon glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&nbsp; Number of Failed Rules<span class="badge">{{badcount}}</span></li>
+				<li class="list-group-item"><span class="glyphicon glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp; Number of Good Rules<span class="badge">{{goodcount}}</span></li>
+
+			</ul>
+		</div>
+
+		<!-- Information Summary Ends Here -->
+
+
+	</div>
+
+</div>
+
+
+<!-- Table block starts here -->
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -45,166 +166,65 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block chartproto %}
-<div>
-  <canvas id="chartproto-area" width="60" height="60"/></canvas>
-
-  <script>
-
-  var doughnutData = [
-    {
-      value: {{ tcpcount }},
-      color:"#D770AD",
-      highlight: "#EC87C0",
-      label: "TCP Rules"
-    },
-    {
-      value: {{ udpcount }},
-      color: "#967ADC",
-      highlight: "#AC92EC",
-      label: "UDP Rules"
-    },
-    {
-      value: {{ icmpcount }},
-      color: "#37BC9B",
-      highlight: "#48CFAD",
-      label: "ICMP Rules"
-    },
-
-  ];
-
-  window.onload = function(){
-    var ctxproto = document.getElementById("chartproto-area").getContext("2d");
-    window.myDoughnut = new Chart(ctxproto).Pie(doughnutData, {responsive : true});
-
-    var ctx = document.getElementById("chart-area").getContext("2d");
-    window.myDoughnut = new Chart(ctx).Pie(doughnutProtoData, {responsive : true,});
-  }
+<!-- Table block ends here -->
 
 
-
-  </script>
-</div>
-
-<div class="blank">
-  <span class="badge badge-tcp">TCP Rules</span>
-</div>
-<div class="blank">
-  <span class="badge badge-udp">UDP Rules</span>
-</div><div class="blank">
-  <span class="badge badge-icmp">ICMP Rules</span>
-</div>
-
-
-{% endblock %}
-
-
-
-
-{% block mychart %}
-<div>
-  <canvas id="chart-area" width="60" height="60"/></canvas>
-  <script>
-
-  var doughnutProtoData = [
-    {
-      value: {{ badcount }},
-      color:"#E9573F",
-      highlight: "#FC6E51",
-      label: "Failed Rules"
-    },
-    {
-      value: {{ goodcount }},
-      color: "#8CC152",
-      highlight: "#A0D468",
-      label: "Succesfull Rules"
-    },
-
-  ];
-
-
-  </script>
-
-</div>
-<div class="blank">
-  <span class="badge badge-failed">Failed Rules</span>
-</div>
-<div class="blank">
-  <span class="badge badge-success">Successful Rules</span>
-</div>
-{% endblock %}
-
-{% block panelinfo %}
-
-<div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">Information Summary</h3>
-  </div>
-  <div class="panel-body">
-    <i class="fa fa-fire fa-lg"></i> <span class="summarylabel">{{ rulecount }} {% if rulecount > 1 %}Rules{% else %}Rule{% endif %}</span><br>
-    <i class="fa fa-server fa-lg"></i> <span class="summarylabel">{{ hostcount }} {% if hostcount > 1 %}Hosts{% else %}Host{% endif %} </span><br>
-    <i class="fa fa-connectdevelop fa-lg"></i><span class="summarylabel">{{ clustercount }} {% if clustercount > 1 %}Clusters{% else %}Cluster{% endif %}</span><br>
-    <i class="fa fa-photo fa-lg"></i><span class="summarylabel">{{ locationcount }} {% if locationcount > 1 %}Locations{% else %}Location{% endif %}</span><br>
-    <i class="fa fa-thumbs-down fa-lg"></i><span class="summarylabel">{{ badcount }} {% if badcount > 1 %}Failed Rules{% else %}Failed Rule {% endif %}</span><br>
-    <i class="fa fa-thumbs-up fa-lg"></i><span class="summarylabel">{{ goodcount }} {% if goodcount > 1 %}Successful Rules{% else %}Successful Rule {% endif %}</span>
-  </div>
-</div>
-
-{% endblock %}
-
-{% block network %}
 <div class="container">
-  <div class="row">
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title">Network Graph</h3>
-      </div>
-      <div class="panel-body">
-        <div id="visualization"></div>
-        <script type="text/javascript">
-        // create an array with nodes
-        var nodes = [
-          {% for node in hosts %}
-          {id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
-          {% endfor %}
-        ];
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Network Graph</h3>
+			</div>
+			<div class="panel-body">
+				<div id="visualization"></div>
+				<script type="text/javascript">
+					// create an array with nodes
+				var nodes = [
+				{% for node in hosts %}
+					{id: {{node.id}}, label: '{{node.host_name}}', group: '{{node.host_name}}', shape: 'dot', title: 'IP Address: {{node.ip_address}}<br>Cluster:  {{node.cluster}}'},
+				{% endfor %}
+	];
 
-        // create an array with edges
-        var edges = [
-          {% for rule in rule_list %}
-          {% if rule.status %}
-          {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
-          {% else %}
-          {from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
-          {% endif %}
-          {% endfor %}
+	// create an array with edges
+	var edges = [
+		{% for rule in rule_list %}
+			{% if rule.status %}
+				{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'arrow', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
+		{% else %}
+			{from: {{rule.source.id}}, to: {{rule.destination.id}},style: 'dash-line', label: '{{rule.port_number}}/{{rule.connection_type}}',length: 500},
+		{% endif %}
+		{% endfor %}
 
-        ];
+	];
 
-        //var options = {
-        //width: '400px',
-        //height: '500px',
-        //stabilize: true,
-        //hierarchicalLayout: {
-        //  direction: 'UD'
-        //}
-        //};
+	//var options = {
+	//width: '400px',
+	//height: '500px',
+	//stabilize: true,
+	//hierarchicalLayout: {
+	//  direction: 'UD'
+	//}
+	//};
 
-        //var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400, centralGravity: 0.65, springLength: 164, springConstant: 0.0227, damping: 0.3}}, smoothCurves: true};
-        var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400}}, smoothCurves: false};
-        // create a network
-        var container = document.getElementById('visualization');
-        var data = {
-          nodes: nodes,
-          edges: edges
-        };
-        var network = new vis.Network(container, data, options);
-        </script>
-      </div>
-    </div>
+	//var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400, centralGravity: 0.65, springLength: 164, springConstant: 0.0227, damping: 0.3}}, smoothCurves: true};
+	var options = {height: '500px', physics: {barnesHut: {gravitationalConstant: -8400}}, smoothCurves: false};
+	// create a network
+	var container = document.getElementById('visualization');
+	var data = {
+		nodes: nodes,
+		edges: edges
+	};
+	var network = new vis.Network(container, data, options);
+				</script>
+			</div>
+		</div>
 
-  </div>
+	</div>
 </div>
+
+
+
+
+
+
 {% endblock %}

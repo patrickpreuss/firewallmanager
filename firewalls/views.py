@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from django.views import generic
+from django.views.generic import ListView, DetailView, TemplateView
+
+
 
 # Create your views here.
 from firewalls.serializers import FirewallSerializer
@@ -33,7 +35,7 @@ class RuleViewSet(viewsets.ModelViewSet):
 #	def get_count():
 #		badcount = Rule.objects.filter(status='False')
 #		return badcount
-	
+
 #	rule_list['badcount'] = get_count()
 
 #class DetailView(generic.DetailView):
@@ -57,3 +59,20 @@ def IndexView(request):
 	context_dict['hosts'] = Host.objects.all()
 
 	return render(request, 'firewalls/index.html', context_dict)
+
+
+class AboutView(TemplateView):
+    template_name = 'firewalls/about.html'
+
+class ClusterListView(ListView):
+	model = Cluster
+	template_name='firewalls/cluster_list.html'
+
+class HostListView(ListView):
+	model = Host
+	template_name='firewalls/host_list.html'
+
+
+class LocationListView(ListView):
+	model=Location
+	template_name='firewalls/location_list.html'
