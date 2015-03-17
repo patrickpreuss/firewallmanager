@@ -69,7 +69,7 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						{% if user.is_authenticated %}
-						<li><a href="#"><i class="fa fa-lg fa-user"></i>&nbsp; Welcome, {{ user.username }}</a></li>
+						<li><a href="/admin"><i class="fa fa-lg fa-user"></i>&nbsp; Welcome, {{ user.username }}</a></li>
 						<li><a href=/logout><i class="fa fa-lg fa-sign-in"></i>&nbsp; Log Out</a></li>
 						{% else %}
 						<li><a href=/login><i class="fa fa-lg fa-sign-in"></i>&nbsp; Log In</a></li>
@@ -97,8 +97,20 @@
 
 	{% block body %}{% endblock %}
 
+<hr>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-5">
+			<p>Best viewed in anything but Internet Explorer™ Seriously, please consider switching.</p>
+			<img src="../../static/firewalls/img/brw-chrome.png" alt="" />
+			<img src="../../static/firewalls/img/brw-firefox.png" alt="" />
+			<img src="../../static/firewalls/img/brw-safari-01.png" alt="" />
+			<img src="../../static/firewalls/img/brw-opera.png" alt="" />
 
-
+		</div>
+	</div>
+</div>
+<hr>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<!-- // <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
