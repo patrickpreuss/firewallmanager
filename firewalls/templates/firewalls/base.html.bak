@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load staticfiles%}
+
+<html lang=en>
+    <head>
+        <title>Firewall Rules Validator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+
+        <!-- Loading Bootstrap -->
+        <link href="{% static 'firewalls/css/vendor/bootstrap.min.css' %}" rel="stylesheet">
+        
+        <!-- Loading Bootstrap Table -->
+        <script src="{% static 'firewalls/js/vendor/jquery.min.js' %}"></script>
+
+        <script src="{% static 'firewalls/bootstraptable/bootstrap-table.min.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/bootstraptable/extensions/filter/bootstrap-table-filter.min.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/bootstraptable/extensions/export/bootstrap-table-export.min.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/tableExport/tableExport.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/tableExport/jquery.base64.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/tableFilter/src/bootstrap-table-filter.js' %}" rel="text/javascript"></script>
+        <script src="{% static 'firewalls/tableFilter/src/ext/bs-table.js' %}" rel="text/javascript"></script>
+        <link href="{% static 'firewalls/tableFilter/src/bootstrap-table-filter.css' %}" rel="stylesheet">
+
+        
+        <link href="{% static 'firewalls/bootstraptable/bootstrap-table.min.css' %}" rel="stylesheet">
+
+        <!-- <link href="{% static 'firewalls/bootflat/css/site.min.css' %}" rel="stylesheet">  -->
+
+        <!-- Loading Custome CSS -->
+        <link href="{% static 'firewalls/css/my.css' %}" rel="stylesheet">
+        <script src="{% static 'firewalls/js/Chart.js' %}" type="text/javascript"></script>
+
+        <!-- Loading Flat UI -->
+        <link href="{% static 'firewalls/css/flat-ui.min.css' %}" rel="stylesheet">
+
+        <!-- Loading FontAwesome -->
+        <link rel="stylesheet" href="{% static 'firewalls/fa/css/font-awesome.min.css' %}">
+        
+        <link rel="stylesheet" href="{% static 'firewalls/vis/dist/vis.css' %}">
+        <script src="{% static 'firewalls/vis/dist/vis.js' %}" rel="text/javascript"></script>
+        
+
+        <link rel="shortcut icon" href="img/favicon.ico">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+        <!--[if lt IE 9]>
+        <script src="js/vendor/html5shiv.js"></script>
+        <script src="js/vendor/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-inverse" role="navigation">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><i class="fa fa-linux fa-lg"></i> Firewall Rules Validator</a>
+                </div>
+                <div class="navbar-text pull-right">
+                  {% if user.is_authenticated %}
+                <a href="/admin">
+                  Admin Console({{user.username}})
+                <!-- <span class="navbar-unread"></span> -->
+                </a>
+                {% else %}
+                  <a href="/admin">
+                    Log In
+                  </a>
+                  {% endif %}
+
+                </div>
+            </nav>
+        </div>
+        
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-xs-6">
+                    <p style="text-align:center">Overall Test Status</p>
+                    {% block mychart %} Placeholder for Chart {% endblock %}
+
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <p style="text-align:center">Protocols Share</p>
+
+                    {% block chartproto %}
+                        Placeholder for Chart
+                    {% endblock %}
+                </div>
+                
+
+                <div class="col-md-3 col-md-offset-5 col-xs-12">
+
+                    {% block panelinfo %} Placeholder for Summary {% endblock %}
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        
+      
+        
+
+{% block network %}This is the network content.{% endblock %}
+                       
+   
+
+{% block rule_table %}This is the default content.{% endblock %}
+               
+        <!-- /.container -->
+
+      
+        <!-- jQuery (necessary for Flat UI's JavaScript plugins) -->
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'firewalls/js/vendor/video.js' %}"></script>
+        <script src="{% static 'firewalls/js/flat-ui.min.js' %}"></script>
+
+    </body>
+</html>
+
+
