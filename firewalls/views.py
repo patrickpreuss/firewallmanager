@@ -1,8 +1,11 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.views.generic import ListView, DetailView, TemplateView
 
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -13,9 +16,11 @@ from rest_framework import viewsets,permissions
 
 #from django.views.decorators.csrf import csrf_exempt
 
+import socket
+
+
 
 #@csrf_exempt
-
 class RuleViewSet(viewsets.ModelViewSet):
 	queryset = Rule.objects.all()
 	serializer_class = FirewallSerializer
@@ -23,25 +28,7 @@ class RuleViewSet(viewsets.ModelViewSet):
 	permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
-
-#class IndexView(generic.ListView):
-#	template_name = 'firewalls/index.html'
-#	context_object_name = 'rule_list'
-
-
-#	def get_queryset(self):
-#		return Rule.objects.all()
-
-#	def get_count():
-#		badcount = Rule.objects.filter(status='False')
-#		return badcount
-
-#	rule_list['badcount'] = get_count()
-
-#class DetailView(generic.DetailView):
-#	model = Rule
-#	template_name = 'firewalls/detail.html'
-
+@login_required(login_url="/login")
 def IndexView(request):
 	context_dict = {}
 
@@ -60,19 +47,79 @@ def IndexView(request):
 
 	return render(request, 'firewalls/index.html', context_dict)
 
-
 class AboutView(TemplateView):
-    template_name = 'firewalls/about.html'
+	template_name = 'firewalls/about.html'
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(AboutView, self).dispatch(*args, **kwargs)
+
 
 class ClusterListView(ListView):
 	model = Cluster
 	template_name='firewalls/cluster_list.html'
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(ClusterListView, self).dispatch(*args, **kwargs)
+
 
 class HostListView(ListView):
 	model = Host
 	template_name='firewalls/host_list.html'
 
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(HostListView, self).dispatch(*args, **kwargs)
+
 
 class LocationListView(ListView):
 	model=Location
 	template_name='firewalls/location_list.html'
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(LocationListView, self).dispatch(*args, **kwargs)
+
+@login_required(login_url="/login")
+@csrf_exempt
+def FirewallTest(request):
+	# return HttpResponse("Starting Ajax")
+	print request.method
+	print request.user
+
+	if request.is_ajax():
+		print "request is ajax"
+		if request.method=='POST':
+			print request.POST.get('name')
+			try:
+				sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				result = sock.connect_ex((request.POST.get('name'),22))
+				print result
+
+				if result == 0:
+					return JsonResponse({"msg": "True"})
+				else:
+					return JsonResponse({"msg" : "False"})
+
+
+			except:
+				return JsonResponse({"msg" : "con failed"})
+
+			# if result == 0:
+   # 				print "Port is open"
+			# 	return JsonResponse({"msg":"connection succesfull"})
+			# else:
+   # 				print "Port is not open"
+			# 	return JsonResponse({"msg":"connection failed"})
+
+	else:
+		print "request is not ajax"
+
+
+	# if request.method == 'GET':
+	# 	# return JsonResponse({'msg' : 'starting ajax'})
+	# 	return JsonResponse({"msg" : "hi"})
+	# elif request.method =='POST':
+	# 	print "Request is POST"
+	# 	print request.POST.get('name')
+	# 	return JsonResponse({'msg' : 'json'})

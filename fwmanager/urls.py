@@ -24,6 +24,8 @@ urlpatterns = patterns('',
        url(r'^hosts/$', views.HostListView.as_view(), name='host-details'),
        url(r'^locations/$', views.LocationListView.as_view(), name='location-details'),
 
+       url(r'^firewalltest/', views.FirewallTest, name='firewall-test' ),
+
 
     #url(r'^clusters/', include('clusters.urls')),
        url(r'^admin/', include(admin.site.urls)),

@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'clusters',
     'firewalls',
     'rest_framework',
+    'crispy_forms',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -91,8 +92,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 #REST_FRAMEWORK = {
-#	
+#
 #	'DEFAULT_PERMISSION_CLASSES': [
 #		'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
 #	]
 #}
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
