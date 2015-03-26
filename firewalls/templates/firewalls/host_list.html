@@ -18,13 +18,14 @@
         <hr>
           <div class="table-responsive">
 
-          <table class="table table-hover" data-pagination="true" data-toggle="table"  data-search="true" data-show-export="true" data-show-toggle="true"  data-show-columns="true" data-smart-display="true" data-show-filter="true" data-toolbar="toolbar">
+          <table class="table table-striped table-hover" data-pagination="true" data-toggle="table"  data-search="true" data-show-export="true" data-show-toggle="true"  data-show-columns="true" data-smart-display="true" data-show-filter="true" data-toolbar="toolbar">
             <thead>
-              <th>Host ID</th>
-              <th>Host Name</th>
-              <th>IP Address</th>
+              <th>ID</th>
+              <th>Name</th>
+              <th>IP</th>
               <th>Cluster</th>
-              <th>Reachable</th>
+              <th>Added at</th>
+              <th>Updated at</th>
               <th>Test</th>
             </thead>
             <tbody>
@@ -34,8 +35,9 @@
                 <td>{{ host.host_name }}</td>
                 <td>{{ host.ip_address }}</td>
                 <td>{{ host.cluster }}</td>
-                <td>No</td>
-                <td><button class="reach_test" type="button" name="reach_test"><span class="glyphicon glyphicon glyphicon-play" aria-hidden="true"></span></button>
+                <td>{{ host.added_at }}</td>
+                <td>{{ host.updated_at }}</td>
+                <td><button class="reach_test btn btn-default" type="button" name="reach_test"><i class="fa fa-play"></i></button>
               </tr>
               {% endfor %}
 

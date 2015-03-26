@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView, TemplateView, CreateView,UpdateView, DeleteView
 
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -80,6 +80,72 @@ class LocationListView(ListView):
 	def dispatch(self, *args, **kwargs):
 		return super(LocationListView, self).dispatch(*args, **kwargs)
 
+class LocationCreateView(CreateView):
+	model=Location
+	template_name='firewalls/location_create.html'
+	success_url = '/location/list'
+	fields = ['location_name']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(LocationCreateView, self).dispatch(*args, **kwargs)
+
+class LocationUpdateView(UpdateView):
+	model=Location
+	template_name='firewalls/location_update.html'
+	success_url = '/location/list'
+	fields = ['location_name']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(LocationUpdateView, self).dispatch(*args, **kwargs)
+
+class LocationDelete(DeleteView):
+	model=Location
+	template_name='firewalls/location_confirm_delete.html'
+	success_url='/location/list'
+	fields = ['location_name']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(LocationDelete, self).dispatch(*args, **kwargs)
+
+####################################
+# Cluster CRUD Section
+####################################
+class ClusterCreate(CreateView):
+	model=Cluster
+	template_name='firewalls/cluster_create.html'
+	success_url = '/cluster/list'
+	fields = ['cluster_name','location']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(ClusterCreate, self).dispatch(*args, **kwargs)
+
+class ClusterUpdate(UpdateView):
+	model=Cluster
+	template_name='firewalls/cluster_update.html'
+	success_url = '/cluster/list'
+	fields = ['cluster_name','location']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(ClusterUpdate, self).dispatch(*args, **kwargs)
+
+class ClusterDelete(DeleteView):
+	model=Cluster
+	template_name='firewalls/cluster_confirm_delete.html'
+	success_url='/cluster/list'
+	fields = ['cluster_name','location']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(ClusterDelete, self).dispatch(*args, **kwargs)
+
+
+# End of Cluster CRUD Section
+
 @login_required(login_url="/login")
 @csrf_exempt
 def FirewallTest(request):
@@ -88,38 +154,15 @@ def FirewallTest(request):
 	print request.user
 
 	if request.is_ajax():
-		print "request is ajax"
 		if request.method=='POST':
-			print request.POST.get('name')
 			try:
 				sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 				result = sock.connect_ex((request.POST.get('name'),22))
-				print result
-
 				if result == 0:
 					return JsonResponse({"msg": "True"})
 				else:
 					return JsonResponse({"msg" : "False"})
-
-
 			except:
 				return JsonResponse({"msg" : "con failed"})
-
-			# if result == 0:
-   # 				print "Port is open"
-			# 	return JsonResponse({"msg":"connection succesfull"})
-			# else:
-   # 				print "Port is not open"
-			# 	return JsonResponse({"msg":"connection failed"})
-
 	else:
-		print "request is not ajax"
-
-
-	# if request.method == 'GET':
-	# 	# return JsonResponse({'msg' : 'starting ajax'})
-	# 	return JsonResponse({"msg" : "hi"})
-	# elif request.method =='POST':
-	# 	print "Request is POST"
-	# 	print request.POST.get('name')
-	# 	return JsonResponse({'msg' : 'json'})
+		return HttpResponse("Direct Access Forbidden")

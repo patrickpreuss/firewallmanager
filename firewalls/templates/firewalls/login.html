@@ -3,7 +3,15 @@
 
 {% block body %}
 {% if form.errors %}
-<div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="alert alert-danger">Your username and password didn't match. Please try again.</div>
+    </div>
+
+  </div>
+
+</div>
 
 {% endif %}
 <div class="container">

@@ -1,0 +1,23 @@
+{% extends 'firewalls/base.html'%}
+{% load crispy_forms_tags %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <span><h3>Add Location</h3></span>
+      <hr>
+
+    <form method="post" action="{% url 'location-create' %}">
+      {% csrf_token %}
+
+      {{ form|crispy }}
+
+      <input type="submit" class="btn btn-default" value="Submit">
+    </form>
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,26 +1,32 @@
 $(document).ready(function(){
-  $("button.reach_test").click(function(){
+  $("body").on("click","button.reach_test",
+    function(){
       var id=$(this).closest("tr").find('td:eq(2)').text();
+      var parentButton=$(this);
+      console.log(parentButton);
 
-      // $.get("/firewalltest",function(data, status){
-      //   alert(data +  status);
-      // });
-      // $(this).html("<i class='fa fa-spinner'></i>")
+      $(this).html('<i class="fa fa-cog fa-spin"></i>');
+
       $.post("/firewalltest/",{ name : id}, function(data, status)
       {
-        if(data["msg"]=="True"){
-          // $(".alert").toggleClass('hidden')
+        parentButton.html('<i class="fa fa-play"></i>')
+        console.log(status)
+        if(data["msg"]=="True")
+        {
           alert("This connection to " + id + " Succeeded");
-        }else{
+        }
+        else
+        {
           alert("This connection to " + id + " Failed");
         }
 
-
       });
-
-      // $.get("/firewalltest/",function(data, status){alert(data["msg"] + status);});
-
   });
-
-
 });
+
+// $(document).ready(function(){
+//
+//   $("body").on("click","button.reach_test",function(){
+//     console.log("Click Activated")
+//   })
+// })
