@@ -20,15 +20,22 @@ urlpatterns = patterns('',
     url(r'^login/', 'django.contrib.auth.views.login', {'template_name': 'firewalls/login.html'}),
     url(r'^about', views.AboutView.as_view(), name='about-view'),
 
+
+    # Host CRUD URL Conf
     url(r'^host/list/$', views.HostListView.as_view(), name='host-details'),
+    url(r'^host/create/$', views.HostCreate.as_view(), name='host-create'),
+    url(r'^host/update/(?P<pk>\d+)/$', views.HostUpdate.as_view(), name='host-update'),
+    url(r'^host/delete/(?P<pk>\d+)/$', views.HostDelete.as_view(), name='host-delete'),
+    
+
+    # Location CRUD URL Conf
     url(r'^location/list/$', views.LocationListView.as_view(), name='location-details'),
     url(r'^location/create/$', views.LocationCreateView.as_view(), name='location-create'),
     url(r'^location/update/(?P<pk>\d+)/$', views.LocationUpdateView.as_view(), name='location-update'),
     url(r'^location/delete/(?P<pk>\d+)/$', views.LocationDelete.as_view(), name='location-delete'),
 
-    url(r'^firewalltest/', views.FirewallTest, name='firewall-test' ),
 
-
+    # Cluster CRUD URL Conf
     url(r'^cluster/list/$', views.ClusterListView.as_view(), name='cluster-details'),
     url(r'^cluster/create/$', views.ClusterCreate.as_view(), name='cluster-create'),
     url(r'^cluster/update/(?P<pk>\d+)/$', views.ClusterUpdate.as_view(), name='cluster-update'),
@@ -36,6 +43,7 @@ urlpatterns = patterns('',
 
 
 
+    url(r'^firewalltest/', views.FirewallTest, name='firewall-test' ),
 
 
     #url(r'^clusters/', include('clusters.urls')),

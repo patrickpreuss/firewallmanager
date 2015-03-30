@@ -16,7 +16,7 @@ from rest_framework import viewsets,permissions
 
 #from django.views.decorators.csrf import csrf_exempt
 
-import socket
+import zerorpc
 
 
 
@@ -62,7 +62,7 @@ class ClusterListView(ListView):
 	def dispatch(self, *args, **kwargs):
 		return super(ClusterListView, self).dispatch(*args, **kwargs)
 
-
+### Host CRUD Section Start ###
 class HostListView(ListView):
 	model = Host
 	template_name='firewalls/host_list.html'
@@ -71,6 +71,37 @@ class HostListView(ListView):
 	def dispatch(self, *args, **kwargs):
 		return super(HostListView, self).dispatch(*args, **kwargs)
 
+class HostCreate(CreateView):
+	model=Host
+	template_name='firewalls/host_create.html'
+	success_url = '/host/list'
+	fields = ['host_name','ip_address','cluster']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(HostCreate, self).dispatch(*args, **kwargs)
+
+class HostUpdate(UpdateView):
+	model=Host
+	template_name='firewalls/host_update.html'
+	success_url = '/host/list'
+	fields = ['host_name','ip_address','cluster']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(HostUpdate, self).dispatch(*args, **kwargs)
+
+class HostDelete(DeleteView):
+	model=Host
+	template_name='firewalls/host_confirm_delete.html'
+	success_url='/host/list'
+	fields = ['host_name','ip_address','cluster']
+
+	@method_decorator(login_required(login_url="/login"))
+	def dispatch(self, *args, **kwargs):
+		return super(HostDelete, self).dispatch(*args, **kwargs)
+
+### Host CRUD Section End ###
 
 class LocationListView(ListView):
 	model=Location
@@ -152,12 +183,13 @@ def FirewallTest(request):
 	# return HttpResponse("Starting Ajax")
 	print request.method
 	print request.user
-
+	print request.POST.get("name")
 	if request.is_ajax():
 		if request.method=='POST':
 			try:
-				sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-				result = sock.connect_ex((request.POST.get('name'),22))
+				rpcClient = zerorpc.Client()
+				rpcClient.connect("tcp://127.0.0.1:4242")
+				result=rpcClient.hello("RPC")
 				if result == 0:
 					return JsonResponse({"msg": "True"})
 				else:
