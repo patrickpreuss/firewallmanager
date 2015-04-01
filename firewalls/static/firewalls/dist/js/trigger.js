@@ -1,7 +1,7 @@
 $(document).ready(function(){
   $('#example').DataTable();
   $("#example1_filter").append($(".dataTables_length"));
-
+  $("#rule-table").DataTable();
   $("body").on("click","button.reach_test",
     function(){
       var id=$(this).closest("tr").find('td:eq(2)').text();

@@ -26,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^host/create/$', views.HostCreate.as_view(), name='host-create'),
     url(r'^host/update/(?P<pk>\d+)/$', views.HostUpdate.as_view(), name='host-update'),
     url(r'^host/delete/(?P<pk>\d+)/$', views.HostDelete.as_view(), name='host-delete'),
-    
+
 
     # Location CRUD URL Conf
     url(r'^location/list/$', views.LocationListView.as_view(), name='location-details'),
@@ -41,7 +41,13 @@ urlpatterns = patterns('',
     url(r'^cluster/update/(?P<pk>\d+)/$', views.ClusterUpdate.as_view(), name='cluster-update'),
     url(r'^cluster/delete/(?P<pk>\d+)/$', views.ClusterDelete.as_view(), name='cluster-delete'),
 
+    # Rule CRUD URL Conf
 
+    url(r'^rule/list/$', views.RuleList.as_view(), name='rule-details'),
+    url(r'^rule/create/$', views.RuleCreate.as_view(), name='rule-create'),
+    url(r'^rule/update/(?P<pk>\d+)/$', views.RuleUpdate.as_view(), name='rule-update'),
+    url(r'^rule/delete/(?P<pk>\d+)/$', views.RuleDelete.as_view(), name='rule-delete'),
+    # End of Rule CRUD URL Conf
 
     url(r'^firewalltest/', views.FirewallTest, name='firewall-test' ),
 
