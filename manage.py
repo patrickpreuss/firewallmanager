@@ -2,6 +2,9 @@
 import os
 import sys
 
+import gevent.monkey
+gevent.monkey.patch_all()
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fwmanager.settings")
 

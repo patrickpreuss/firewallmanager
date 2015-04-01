@@ -20,6 +20,7 @@ import zerorpc
 
 
 
+
 #@csrf_exempt
 class RuleViewSet(viewsets.ModelViewSet):
 	queryset = Rule.objects.all()
@@ -32,7 +33,7 @@ class RuleViewSet(viewsets.ModelViewSet):
 def IndexView(request):
 	context_dict = {}
 
-	context_dict['rule_list'] = Rule.objects.all().order_by('-last_updated')
+        context_dict['rule_list'] = Rule.objects.all().order_by('-last_updated')[:5]
 	context_dict['badcount'] = Rule.objects.filter(status=False).count()
 	context_dict['goodcount'] = Rule.objects.filter(status=True).count()
 	context_dict['tcpcount'] = Rule.objects.filter(connection_type="TCP").count()
@@ -43,7 +44,7 @@ def IndexView(request):
 	context_dict['locationcount'] = Location.objects.all().count()
 	context_dict['hostcount'] = Host.objects.all().count()
 
-	context_dict['hosts'] = Host.objects.all()
+        context_dict['hosts'] = Host.objects.all()
 
 	return render(request, 'firewalls/index.html', context_dict)
 

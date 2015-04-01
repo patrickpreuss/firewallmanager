@@ -1,22 +1,66 @@
-{% extends "firewalls/base.html" %}
+{% extends 'firewalls/base.html' %}
 
-{% block body %}
-<div class="container">
-  <div class="row">
-    <div class="col-lg-5">
+{% block sidebar %}
+<!-- Sidebar Menu -->
+<ul class="sidebar-menu">
+  <li class="header">MAIN NAVIGATION</li>
+  <!-- Optionally, you can add icons to the links -->
+  <li><a href="/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+  <li><a href="/rule/list"><i class="fa fa-fire"></i><span>Rules</span></a></li>
+  <li><a href="/host/list"><i class="fa fa-server"></i><span>Hosts</span></a></li>
+  <li><a href="/cluster/list"><i class="fa fa-cubes"></i><span>Clusters</span></a></li>
+  <li><a href="/location/list"><i class="fa fa-globe"></i><span>Locations</span></a></li>
+  <li class="active"><a href="/about"><i class="fa fa-info"></i><span>About</span></a></li>
+  <!-- <li><a href="#"><span>Another Link</span></a></li>
+  <li class="treeview">
+    <a href="#"><span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+    <ul class="treeview-menu">
+      <li><a href="#">Link in level 2</a></li>
+      <li><a href="#">Link in level 2</a></li>
+    </ul>
+  </li>
+</ul><!-- /.sidebar-menu --> -->
+</section>
+<!-- /.sidebar -->
+</aside>
+{% endblock %}
 
-      <ul class="list-group">
-        <li class="list-group-item">Version : 0.1</li>
-        <li class="list-group-item">Powered By : Python Django</li>
-        <li class="list-group-item">Developers : Ranjan & Sebin</li>
-        <li class="list-group-item">Issues : <a href="https://github.com/Ranjandas/firewallmanager">https://github.com/Ranjandas/firewallmanager</a></li>
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+<h1>
+  Dashboard
+  <small>Version 1.0</small>
+</h1>
+<ol class="breadcrumb">
+  <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+  <li class="active">Dashboard</li>
+</ol>
+</section>
 
-      </ul>
+<!-- Main content -->
+<section class="content">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5">
 
+        <ul class="list-group">
+          <li class="list-group-item">Version : 0.1</li>
+          <li class="list-group-item">Powered By : Python Django</li>
+          <li class="list-group-item">Developers : Ranjan & Sebin</li>
+          <li class="list-group-item">Issues : <a href="https://github.com/Ranjandas/firewallmanager">https://github.com/Ranjandas/firewallmanager</a></li>
+
+        </ul>
+
+      </div>
     </div>
+
   </div>
 
-</div>
 
 
+</section><!-- /.content -->
+</div><!-- /.content-wrapper -->
 {% endblock %}
