@@ -12,9 +12,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Bootstrap 3.3.2 -->
     <link href="{% static 'firewalls/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href="{% static 'firewalls/plugins/fontawesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" />
+
     <!-- Ionicons -->
-    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href="{% static 'firewalls/plugins/ionicons/css/ionicons.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="{% static 'firewalls/dist/css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
@@ -61,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="/" class="logo"><b>Kick</b>Back</a>
+        <a href="/" class="logo"><i class="ion ion-fireball"></i>&nbsp;<b>Kick</b>Back</a>
 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -86,7 +89,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           Omnia Platform Engineering Team
         </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2015 <a href="#">Commonwealth Bank of Australia</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2015 <a href="#"></a>.</strong> All rights reserved.
       </footer>
 
     </div><!-- ./wrapper -->
